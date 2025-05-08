@@ -46,6 +46,11 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:22.0.0")
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.storage.ktx)
+
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("androidx.recyclerview:recyclerview:1.3.2")
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
