@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "670651295684",
+    "project_id": "socialmediaapp-64d83",
+    "storage_bucket": "socialmediaapp-64d83.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670651295684:android:e235f2e06528e64b2fe691",
+        "android_client_info": {
+          "package_name": "com.niven.socialmediaapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx43ItUErFZQ-NObu5buADWNQKDtOvFPM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670651295684:android:e865478ac564f7d72fe691",
+        "android_client_info": {
+          "package_name": "vcmsa.projects.socialmediaapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx43ItUErFZQ-NObu5buADWNQKDtOvFPM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
