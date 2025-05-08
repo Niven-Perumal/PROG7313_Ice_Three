@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.niven.socialmediaapp.MainActivity
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
@@ -194,17 +196,28 @@ class EditProfile : AppCompatActivity() {
             .orderBy("timestamp", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
-                    Toast.makeText(this, "Error loading posts", Toast.LENGTH_SHORT).show()
+                    Log.e("MainActivity", "Error loading posts", error)
+                    Toast.makeText(this, "Failed to load posts", Toast.LENGTH_SHORT).show()
                     return@addSnapshotListener
                 }
 
-                val posts = snapshot?.toObjects(Post::class.java) ?: emptyList()
-                val adapter = PostsAdapter(posts).apply {
+                val posts = snapshot?.documents?.mapNotNull { document ->
+                    try {
+                        document.toObject(Post::class.java)?.copy(postId = document.id)
+                    } catch (e: Exception) {
+                        Log.e("MainActivity", "Error parsing post", e)
+                        null
+                    }
+                } ?: emptyList()
+
+                postsRecyclerView.adapter = PostsAdapter(posts).apply {
                     onPostClickListener = { post ->
 
+                        Toast.makeText(this@EditProfile,
+                            "Clicked: ${post.caption}",
+                            Toast.LENGTH_SHORT).show()
                     }
                 }
-                postsRecyclerView.adapter = adapter
             }
     }
 

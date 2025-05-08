@@ -2,7 +2,9 @@ package com.niven.socialmediaapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +26,12 @@ class MainActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
+
+        postsRecyclerView = findViewById(R.id.postsRecyclerView)
+        postsRecyclerView.layoutManager = LinearLayoutManager(this)
+        postsRecyclerView.setHasFixedSize(true) // Optimize performance
+
+
         findViewById<Button>(R.id.btnEditProfile).setOnClickListener {
             startActivity(Intent(this, EditProfile::class.java))
         }
@@ -32,9 +40,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, CreatePost::class.java))
         }
 
-        postsRecyclerView = findViewById(R.id.postsRecyclerView)
-        postsRecyclerView.layoutManager = LinearLayoutManager(this)
-
         loadPosts()
     }
 
@@ -42,16 +47,29 @@ class MainActivity : AppCompatActivity() {
         firestore.collection("posts")
             .orderBy("timestamp", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, error ->
-                if (error != null) return@addSnapshotListener
+                if (error != null) {
+                    Log.e("MainActivity", "Error loading posts", error)
+                    Toast.makeText(this, "Failed to load posts", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
 
-                val posts = snapshot?.toObjects(Post::class.java) ?: emptyList()
-                val adapter = PostsAdapter(posts).apply {
-                    // to do?: Handle item clicks
+                val posts = snapshot?.documents?.mapNotNull { document ->
+                    try {
+                        document.toObject(Post::class.java)?.copy(postId = document.id)
+                    } catch (e: Exception) {
+                        Log.e("MainActivity", "Error parsing post", e)
+                        null
+                    }
+                } ?: emptyList()
+
+                postsRecyclerView.adapter = PostsAdapter(posts).apply {
                     onPostClickListener = { post ->
-                        // will go here Handle post click
+
+                        Toast.makeText(this@MainActivity,
+                            "Clicked: ${post.caption}",
+                            Toast.LENGTH_SHORT).show()
                     }
                 }
-                postsRecyclerView.adapter = adapter
             }
     }
 
@@ -63,11 +81,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
 
-
-
-
-
-
-
+        loadPosts()
+    }
 }
