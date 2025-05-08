@@ -17,8 +17,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
@@ -33,6 +36,9 @@ class EditProfile : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
+
+    private lateinit var postsRecyclerView: RecyclerView
+
 
     private val requestMultiplePermissionsLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -66,8 +72,15 @@ class EditProfile : AppCompatActivity() {
             saveProfile()
         }
 
-        // Load user info when screen opens
+
         loadUserProfile()
+
+
+        postsRecyclerView = findViewById(R.id.postsRecyclerView)
+        postsRecyclerView.layoutManager = LinearLayoutManager(this)
+
+        loadPosts()
+
     }
 
     private fun checkAndRequestPermissions() {
@@ -170,4 +183,29 @@ class EditProfile : AppCompatActivity() {
         val decodedBytes: ByteArray = Base64.decode(base64String, Base64.DEFAULT)
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
     }
+
+
+
+    private fun loadPosts() {
+        val currentUserId = auth.currentUser?.uid ?: return
+
+        firestore.collection("posts")
+            .whereEqualTo("userId", currentUserId)
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Toast.makeText(this, "Error loading posts", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
+
+                val posts = snapshot?.toObjects(Post::class.java) ?: emptyList()
+                val adapter = PostsAdapter(posts).apply {
+                    onPostClickListener = { post ->
+
+                    }
+                }
+                postsRecyclerView.adapter = adapter
+            }
+    }
+
 }
