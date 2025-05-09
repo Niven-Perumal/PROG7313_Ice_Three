@@ -16,47 +16,48 @@
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.116"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.07" />
+        app:layout_constraintVertical_bias="0.055" />
+
 
     <Button
         android:id="@+id/btnSelectNewPic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select Picture"
+        android:layout_width="95dp"
+        android:layout_height="55dp"
+        android:text="Profile Pic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.534"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.279" />
+        app:layout_constraintVertical_bias="0.146" />
 
     <EditText
         android:id="@+id/etUpdateName"
-        android:layout_width="300dp"
+        android:layout_width="200dp"
         android:layout_height="48dp"
         android:layout_marginTop="24dp"
         android:hint="Enter your name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.355" />
+        app:layout_constraintVertical_bias="0.015" />
 
     <Button
         android:id="@+id/btnSaveProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save Changes"
+        android:layout_width="95dp"
+        android:layout_height="55dp"
+        android:text="Update"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.892"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.472" />
-
+        app:layout_constraintVertical_bias="0.146" />
 
     <TextView
         android:id="@+id/tvYourPosts"
@@ -64,15 +65,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="104dp"
         android:text="Your Posts"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.475" />
+        app:layout_constraintVertical_bias="0.137" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/postsRecyclerView"
@@ -80,9 +81,27 @@
         android:layout_height="0dp"
         android:layout_marginTop="25dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvYourPosts" />
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_nav" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

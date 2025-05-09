@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -72,6 +73,22 @@ class EditProfile : AppCompatActivity() {
 
         btnSaveProfile.setOnClickListener {
             saveProfile()
+        }
+
+
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    true
+                }
+                R.id.nav_profile -> {
+                    startActivity(Intent(this, EditProfile::class.java))
+                    true
+                }
+                else -> false
+            }
         }
 
 

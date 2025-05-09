@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.io.ByteArrayOutputStream
@@ -60,6 +61,23 @@ class CreatePost : AppCompatActivity() {
         postButton.setOnClickListener {
             createPost()
         }
+
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    true
+                }
+                R.id.nav_profile -> {
+                    startActivity(Intent(this, EditProfile::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
+
+
     }
 
     private fun convertUriToBase64(uri: Uri): String? {
