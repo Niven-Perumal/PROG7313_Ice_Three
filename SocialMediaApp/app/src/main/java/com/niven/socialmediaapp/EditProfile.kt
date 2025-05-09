@@ -168,7 +168,7 @@ class EditProfile : AppCompatActivity() {
             .set(updates, com.google.firebase.firestore.SetOptions.merge())
             .addOnSuccessListener {
                 Toast.makeText(this, "Profile Updated!", Toast.LENGTH_SHORT).show()
-                loadUserProfile()  // refresh after save
+                loadUserProfile()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Update Failed: ${e.message}", Toast.LENGTH_LONG).show()
@@ -214,7 +214,6 @@ class EditProfile : AppCompatActivity() {
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
                     Log.e("MainActivity", "Error loading posts", error)
-                    Toast.makeText(this, "Failed to load posts", Toast.LENGTH_SHORT).show()
                     return@addSnapshotListener
                 }
 
