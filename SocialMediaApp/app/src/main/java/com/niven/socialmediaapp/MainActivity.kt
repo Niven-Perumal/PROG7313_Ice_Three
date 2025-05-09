@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -32,13 +33,26 @@ class MainActivity : AppCompatActivity() {
         postsRecyclerView.setHasFixedSize(true) // Optimize performance
 
 
-        findViewById<Button>(R.id.btnEditProfile).setOnClickListener {
-            startActivity(Intent(this, EditProfile::class.java))
-        }
-
         findViewById<Button>(R.id.btnCreatePost).setOnClickListener {
             startActivity(Intent(this, CreatePost::class.java))
         }
+
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    true
+                }
+                R.id.nav_profile -> {
+                    startActivity(Intent(this, EditProfile::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
+
+
 
         loadPosts()
     }
